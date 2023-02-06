@@ -1031,20 +1031,28 @@ func reconcileCAPIManagerRole(role *rbacv1.Role) error {
 			Resources: []string{
 				"hostedcontrolplanes",
 				"hostedcontrolplanes/status",
-				"externalinfraclusters",
-				"externalinfraclusters/status",
 			},
-			Verbs: []string{"*"},
+			Verbs: []string{"get", "list", "watch"},
 		},
 		{
 			APIGroups: []string{""},
 			Resources: []string{
 				"configmaps",
-				"events",
-				"nodes",
 				"secrets",
 			},
+			Verbs: []string{"list", "watch"},
+		},
+		{
+			APIGroups: []string{"coordination.k8s.io"},
+			Resources: []string{
+				"leases",
+			},
 			Verbs: []string{"*"},
+		},
+		{
+			APIGroups: []string{"capi-provider.agent-install.openshift.io"},
+			Resources: []string{"*"},
+			Verbs:     []string{"*"},
 		},
 	}
 	return nil
