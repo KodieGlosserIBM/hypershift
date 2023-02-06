@@ -2692,53 +2692,61 @@ func reconcileCAPIManagerRole(role *rbacv1.Role, platformType hyperv1.PlatformTy
 				Verbs:     []string{"*"},
 			},
 		}
-	} else {
-		role.Rules = []rbacv1.PolicyRule{
-			{
-				APIGroups: []string{
-					"bootstrap.cluster.x-k8s.io",
-					"controlplane.cluster.x-k8s.io",
-					"infrastructure.cluster.x-k8s.io",
-					"machines.cluster.x-k8s.io",
-					"exp.infrastructure.cluster.x-k8s.io",
-					"addons.cluster.x-k8s.io",
-					"exp.cluster.x-k8s.io",
-					"cluster.x-k8s.io",
-				},
-				Resources: []string{"*"},
-				Verbs:     []string{"*"},
+		return nil
+	}
+	role.Rules = []rbacv1.PolicyRule{
+		{
+			APIGroups: []string{
+				"bootstrap.cluster.x-k8s.io",
+				"controlplane.cluster.x-k8s.io",
+				"infrastructure.cluster.x-k8s.io",
+				"machines.cluster.x-k8s.io",
+				"exp.infrastructure.cluster.x-k8s.io",
+				"addons.cluster.x-k8s.io",
+				"exp.cluster.x-k8s.io",
+				"cluster.x-k8s.io",
 			},
-			{
-				APIGroups: []string{"hypershift.openshift.io"},
-				Resources: []string{
-					"hostedcontrolplanes",
-					"hostedcontrolplanes/status",
-				},
-				Verbs: []string{"*"},
+			Resources: []string{"*"},
+			Verbs:     []string{"*"},
+		},
+		{
+			APIGroups: []string{"hypershift.openshift.io"},
+			Resources: []string{
+				"hostedcontrolplanes",
+				"hostedcontrolplanes/status",
 			},
-			{
-				APIGroups: []string{""},
-				Resources: []string{
-					"configmaps",
-					"events",
-					"nodes",
-					"secrets",
-				},
-				Verbs: []string{"*"},
+			Verbs: []string{"*"},
+		},
+		{
+			APIGroups: []string{""},
+			Resources: []string{
+				"configmaps",
+				"secrets",
 			},
-			{
-				APIGroups: []string{"coordination.k8s.io"},
-				Resources: []string{
-					"leases",
-				},
-				Verbs: []string{"*"},
+			Verbs: []string{"list", "watch"},
+		},
+		{
+			APIGroups: []string{""},
+			Resources: []string{
+				"configmaps",
+				"events",
+				"nodes",
+				"secrets",
 			},
-			{
-				APIGroups: []string{"capi-provider.agent-install.openshift.io"},
-				Resources: []string{"*"},
-				Verbs:     []string{"*"},
+			Verbs: []string{"*"},
+		},
+		{
+			APIGroups: []string{"coordination.k8s.io"},
+			Resources: []string{
+				"leases",
 			},
-		}
+			Verbs: []string{"*"},
+		},
+		{
+			APIGroups: []string{"capi-provider.agent-install.openshift.io"},
+			Resources: []string{"*"},
+			Verbs:     []string{"*"},
+		},
 	}
 	return nil
 }
