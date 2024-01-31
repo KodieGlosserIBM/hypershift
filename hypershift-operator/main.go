@@ -146,6 +146,7 @@ func NewStartCommand() *cobra.Command {
 
 	cmd.Run = func(cmd *cobra.Command, args []string) {
 		ctx, cancel := context.WithCancel(ctrl.SetupSignalHandler())
+		ctx, cancel = context.WithTimeout(ctx, 300)
 		defer cancel()
 
 		switch hyperv1.PlatformType(opts.PrivatePlatform) {
