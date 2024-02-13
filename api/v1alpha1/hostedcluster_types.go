@@ -126,6 +126,97 @@ const (
 	// For example, to override the memory and cpu request for the Kubernetes APIServer:
 	// resource-request-override.hypershift.openshift.io/kube-apiserver.kube-apiserver: memory=3Gi,cpu=2000m
 	ResourceRequestOverrideAnnotationPrefix = "resource-request-override.hypershift.openshift.io"
+
+	// LimitedSupportLabel is a label that can be used by consumers to indicate
+	// a cluster is somehow out of regular support policy.
+	// https://docs.openshift.com/rosa/rosa_architecture/rosa_policy_service_definition/rosa-service-definition.html#rosa-limited-support_rosa-service-definition.
+	LimitedSupportLabel = "api.openshift.com/limited-support"
+
+	// SilenceClusterAlertsLabel  is a label that can be used by consumers to indicate
+	// alerts from a cluster can be silenced or ignored
+	SilenceClusterAlertsLabel = "hypershift.openshift.io/silence-cluster-alerts"
+
+	// KubeVirtInfraCredentialsSecretName is a name of the secret in the hosted control plane namespace containing the kubeconfig
+	// of an external infrastructure cluster for kubevirt provider
+	KubeVirtInfraCredentialsSecretName = "kubevirt-infra-credentials"
+
+	// InfraIDLabel is a label that indicates the hosted cluster's infra id
+	// that the resource is associated with.
+	InfraIDLabel = "hypershift.openshift.io/infra-id"
+
+	// NodePoolNameLabel is a label that indicates the name of the node pool
+	// a resource is associated with
+	NodePoolNameLabel = "hypershift.openshift.io/nodepool-name"
+
+	// RouteVisibilityLabel is a label that can be used by external-dns to filter routes
+	// it should not consider for name registration
+	RouteVisibilityLabel = "hypershift.openshift.io/route-visibility"
+
+	// RouteVisibilityPrivate is a value for RouteVisibilityLabel that will result
+	// in the labeled route being ignored by external-dns
+	RouteVisibilityPrivate = "private"
+
+	// AllowUnsupportedKubeVirtRHCOSVariantsAnnotation allows a NodePool to use image sources
+	// other than the official rhcos kubevirt variant, such as the openstack variant. This
+	// allows the creation of guest clusters <= 4.13, which are before the rhcos kubevirt
+	// variant was released.
+	AllowUnsupportedKubeVirtRHCOSVariantsAnnotation = "hypershift.openshift.io/allow-unsupported-kubevirt-rhcos-variants"
+
+	// ImageOverridesAnnotation is passed as a flag to the CPO to allow overriding release images.
+	// The format of the annotation value is a commma-separated list of image=ref pairs like:
+	// cluster-network-operator=example.com/cno:latest,ovn-kubernetes=example.com/ovnkube:latest
+	ImageOverridesAnnotation = "hypershift.openshift.io/image-overrides"
+
+	// EnsureExistsPullSecretReconciliation enables a reconciliation behavior on in cluster pull secret
+	// resources that enables user modifications to the resources while ensuring they do exist. This
+	// allows users to execute workflows like disabling insights operator
+	EnsureExistsPullSecretReconciliation = "hypershift.openshift.io/ensureexists-pullsecret-reconcile"
+
+	// HostedClusterLabel is used as a label on nodes that are dedicated to a specific hosted cluster
+	HostedClusterLabel = "hypershift.openshift.io/cluster"
+
+	// RequestServingComponentLabel is used as a label on pods and nodes for dedicated serving components.
+	RequestServingComponentLabel = "hypershift.openshift.io/request-serving-component"
+
+	// TopologyAnnotation indicates the type of topology that should take effect for the
+	// hosted cluster's control plane workloads. Currently the only value supported is "dedicated-request-serving-components".
+	// We implicitly support shared and dedicated.
+	TopologyAnnotation = "hypershift.openshift.io/topology"
+
+	// HostedClusterScheduledAnnotation indicates that a hosted cluster with dedicated request serving components
+	// has been assigned dedicated nodes. If not present, the hosted cluster needs scheduling.
+	HostedClusterScheduledAnnotation = "hypershift.openshift.io/cluster-scheduled"
+
+	// DedicatedRequestServingComponentsTopology indicates that control plane request serving
+	// components should be scheduled on dedicated nodes in the management cluster.
+	DedicatedRequestServingComponentsTopology = "dedicated-request-serving-components"
+
+	// DisableMachineManagement Disable deployments related to machine management that includes cluster-api, cluster-autoscaler, machine-approver.
+	DisableMachineManagement = "hypershift.openshift.io/disable-machine-management"
+
+	// AllowGuestWebhooksServiceLabel marks a service deployed in the control plane as a valid target
+	// for validating/mutating webhooks running in the guest cluster.
+	AllowGuestWebhooksServiceLabel = "hypershift.openshift.io/allow-guest-webhooks"
+
+	// PodSecurityAdmissionLabelOverrideAnnotation allows overriding the pod security admission label on
+	// hosted control plane namespacces. The default is 'Restricted'. Valid values are 'Restricted', 'Baseline', or 'Privileged'
+	// See https://github.com/openshift/enhancements/blob/master/enhancements/authentication/pod-security-admission.md
+	PodSecurityAdmissionLabelOverrideAnnotation = "hypershift.openshift.io/pod-security-admission-label-override"
+
+	//DisableMonitoringServices introduces an option to disable monitor services IBM Cloud do not use.
+	DisableMonitoringServices = "hypershift.openshift.io/disable-monitoring-services"
+
+	// JSONPatchAnnotation allow modifying the kubevirt VM template using jsonpatch
+	JSONPatchAnnotation = "hypershift.openshift.io/kubevirt-vm-jsonpatch"
+
+	// KubeAPIServerGOGCAnnotation allows modifying the kube-apiserver GOGC environment variable to impact how often
+	// the GO garbage collector runs. This can be used to reduce the memory footprint of the kube-apiserver.
+	KubeAPIServerGOGCAnnotation = "hypershift.openshift.io/kube-apiserver-gogc"
+
+	// KubeAPIServerGOMemoryLimitAnnotation allows modifying the kube-apiserver GOMEMLIMIT environment variable to increase
+	// the frequency of memory collection when memory used rises above a particular threshhold. This can be used to reduce
+	// the memory footprint of the kube-apiserver during upgrades.
+	KubeAPIServerGOMemoryLimitAnnotation = "hypershift.openshift.io/kube-apiserver-gomemlimit"
 )
 
 // HostedClusterSpec is the desired behavior of a HostedCluster.
